@@ -10,6 +10,7 @@ class SELayer(nn.Module):
             nn.ReLU(inplace=True),
             nn.Linear(channel // reduction, channel, bias=False),
             nn.Sigmoid()
+            nn.functional.Threshold(threshold, 0)
         )
 
     def forward(self, x):
