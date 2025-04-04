@@ -9,7 +9,7 @@ class SELayer(nn.Module, threshold):
             nn.Linear(channel, channel // reduction, bias=False),
             nn.ReLU(inplace=True),
             nn.Linear(channel // reduction, channel, bias=False),
-            nn.Sigmoid()
+            nn.Sigmoid(),
             nn.functional.Threshold(threshold, 0)
         )
 
