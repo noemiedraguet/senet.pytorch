@@ -8,7 +8,7 @@ def conv3x3(in_planes, out_planes, stride=1):
     return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride, padding=1, bias=False)
 
 
-class SEBasicBlock(nn.Module):
+class SEBasicBlock(nn.Module, threshold):
     expansion = 1
 
     def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
@@ -43,7 +43,7 @@ class SEBasicBlock(nn.Module):
         return out
 
 
-class SEBottleneck(nn.Module):
+class SEBottleneck(nn.Module, threshold):
     expansion = 4
 
     def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
@@ -144,7 +144,7 @@ def se_resnet152(num_classes=1_000):
     return model
 
 
-class CifarSEBasicBlock(nn.Module):
+class CifarSEBasicBlock(nn.Module, threshold):
     def __init__(self, inplanes, planes, stride=1, reduction=16):
         super(CifarSEBasicBlock, self).__init__()
         self.conv1 = conv3x3(inplanes, planes, stride)
@@ -152,7 +152,7 @@ class CifarSEBasicBlock(nn.Module):
         self.relu = nn.ReLU(inplace=True)
         self.conv2 = conv3x3(planes, planes)
         self.bn2 = nn.BatchNorm2d(planes)
-        self.se = SELayer(planes, reduction)
+        self.se = SELayer(planes, reduction, threshold)
         if inplanes != planes:
             self.downsample = nn.Sequential(nn.Conv2d(inplanes, planes, kernel_size=1, stride=stride, bias=False),
                                             nn.BatchNorm2d(planes))
