@@ -1,7 +1,7 @@
 from torch import nn
 
 
-class SELayer(nn.Module):
+class SELayer(nn.Module, threshold):
     def __init__(self, channel, reduction=16):
         super(SELayer, self).__init__()
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
