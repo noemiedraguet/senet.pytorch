@@ -20,7 +20,7 @@ class SEBasicBlock(nn.Module):
         self.relu = nn.ReLU(inplace=True)
         self.conv2 = conv3x3(planes, planes, 1)
         self.bn2 = nn.BatchNorm2d(planes)
-        self.se = SELayer(planes, reduction)
+        self.se = SELayer(planes, reduction, threshold)
         self.downsample = downsample
         self.stride = stride
 
@@ -58,7 +58,7 @@ class SEBottleneck(nn.Module):
         self.conv3 = nn.Conv2d(planes, planes * 4, kernel_size=1, bias=False)
         self.bn3 = nn.BatchNorm2d(planes * 4)
         self.relu = nn.ReLU(inplace=True)
-        self.se = SELayer(planes * 4, reduction)
+        self.se = SELayer(planes * 4, reduction, threshold)
         self.downsample = downsample
         self.stride = stride
 
