@@ -1,8 +1,8 @@
 from torch import nn
 
 
-class SELayer(nn.Module, threshold):
-    def __init__(self, channel, reduction=16):
+class SELayer(nn.Module):
+    def __init__(self, channel, reduction=16, threshold = threshold):
         super(SELayer, self).__init__()
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
         self.fc = nn.Sequential(
