@@ -11,16 +11,16 @@ def conv3x3(in_planes, out_planes, stride=1):
 class SEBasicBlock(nn.Module):
     expansion = 1
 
-    def __init__(self, inplanes, planes, threshold, stride=1, downsample=None, groups=1,
+    def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
                  base_width=64, dilation=1, norm_layer=None,
-                 *, reduction=16):
+                 *, reduction=16, threshold = threshold):
         super(SEBasicBlock, self).__init__()
         self.conv1 = conv3x3(inplanes, planes, stride)
         self.bn1 = nn.BatchNorm2d(planes)
         self.relu = nn.ReLU(inplace=True)
         self.conv2 = conv3x3(planes, planes, 1)
         self.bn2 = nn.BatchNorm2d(planes)
-        self.se = SELayer(planes, threshold, reduction)
+        self.se = SELayer(planes, reduction, threshold)
         self.downsample = downsample
         self.stride = stride
 
@@ -46,9 +46,9 @@ class SEBasicBlock(nn.Module):
 class SEBottleneck(nn.Module):
     expansion = 4
 
-    def __init__(self, inplanes, planes, threshold, stride=1, downsample=None, groups=1,
+    def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
                  base_width=64, dilation=1, norm_layer=None,
-                 *, reduction=16):
+                 *, reduction=16, threshold = threshold):
         super(SEBottleneck, self).__init__()
         self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=1, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
@@ -58,7 +58,7 @@ class SEBottleneck(nn.Module):
         self.conv3 = nn.Conv2d(planes, planes * 4, kernel_size=1, bias=False)
         self.bn3 = nn.BatchNorm2d(planes * 4)
         self.relu = nn.ReLU(inplace=True)
-        self.se = SELayer(planes * 4, threshold, reduction)
+        self.se = SELayer(planes * 4, reduction, threshold)
         self.downsample = downsample
         self.stride = stride
 
@@ -145,14 +145,14 @@ def se_resnet152(num_classes=1_000):
 
 
 class CifarSEBasicBlock(nn.Module):
-    def __init__(self, inplanes, planes, threshold, stride=1, reduction=16):
+    def __init__(self, inplanes, planes, stride=1, reduction=16, threshold = threshold):
         super(CifarSEBasicBlock, self).__init__()
         self.conv1 = conv3x3(inplanes, planes, stride)
         self.bn1 = nn.BatchNorm2d(planes)
         self.relu = nn.ReLU(inplace=True)
         self.conv2 = conv3x3(planes, planes)
         self.bn2 = nn.BatchNorm2d(planes)
-        self.se = SELayer(planes, threshold, reduction)
+        self.se = SELayer(planes, reduction, threshold)
         if inplanes != planes:
             self.downsample = nn.Sequential(nn.Conv2d(inplanes, planes, kernel_size=1, stride=stride, bias=False),
                                             nn.BatchNorm2d(planes))
@@ -177,7 +177,7 @@ class CifarSEBasicBlock(nn.Module):
 
 
 class CifarSEResNet(nn.Module):
-    def __init__(self, block, n_size, threshold, num_classes=10, reduction=16):
+    def __init__(self, block, n_size, num_classes=10, reduction=16, threshold = threshold):
         super(CifarSEResNet, self).__init__()
         self.inplane = 16
         self.conv1 = nn.Conv2d(
@@ -185,11 +185,11 @@ class CifarSEResNet(nn.Module):
         self.bn1 = nn.BatchNorm2d(self.inplane)
         self.relu = nn.ReLU(inplace=True)
         self.layer1 = self._make_layer(
-            block, 16, blocks=n_size, stride=1, threshold = threshold, reduction=reduction)
+            block, 16, blocks=n_size, stride=1, reduction=reduction, threshold = threshold)
         self.layer2 = self._make_layer(
-            block, 32, blocks=n_size, stride=2, threshold = threshold, reduction=reduction)
+            block, 32, blocks=n_size, stride=2, reduction=reduction, threshold = threshold)
         self.layer3 = self._make_layer(
-            block, 64, blocks=n_size, stride=2, threshold = threshold, reduction=reduction)
+            block, 64, blocks=n_size, stride=2, reduction=reduction, threshold = threshold)
         self.avgpool = nn.AdaptiveAvgPool2d(1)
         self.fc = nn.Linear(64, num_classes)
         self.initialize()
@@ -202,11 +202,11 @@ class CifarSEResNet(nn.Module):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
 
-    def _make_layer(self, block, planes, blocks, stride, threshold, reduction):
+    def _make_layer(self, block, planes, blocks, stride, reduction, threshold):
         strides = [stride] + [1] * (blocks - 1)
         layers = []
         for stride in strides:
-            layers.append(block(self.inplane, planes, stride, threshold, reduction))
+            layers.append(block(self.inplane, planes, stride, reduction, threshold))
             self.inplane = planes
 
         return nn.Sequential(*layers)
@@ -228,9 +228,9 @@ class CifarSEResNet(nn.Module):
 
 
 class CifarSEPreActResNet(CifarSEResNet):
-    def __init__(self, block, n_size, threshold, num_classes=10, reduction=16):
+    def __init__(self, block, n_size, num_classes=10, reduction=16, threshold = threshold):
         super(CifarSEPreActResNet, self).__init__(
-            block, n_size, threshold, num_classes, reduction)
+            block, n_size, num_classes, reduction, threshold)
         self.bn1 = nn.BatchNorm2d(self.inplane)
         self.initialize()
 
