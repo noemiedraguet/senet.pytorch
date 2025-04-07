@@ -13,7 +13,7 @@ class SEBasicBlock(nn.Module):
 
     def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
                  base_width=64, dilation=1, norm_layer=None,
-                 *, reduction=16, threshold = 0.5):
+                 *, reduction=16, threshold):
         super(SEBasicBlock, self).__init__()
         self.conv1 = conv3x3(inplanes, planes, stride)
         self.bn1 = nn.BatchNorm2d(planes)
@@ -48,7 +48,7 @@ class SEBottleneck(nn.Module):
 
     def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
                  base_width=64, dilation=1, norm_layer=None,
-                 *, reduction=16, threshold = 0.5):
+                 *, reduction=16, threshold):
         super(SEBottleneck, self).__init__()
         self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=1, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
@@ -145,7 +145,7 @@ def se_resnet152(num_classes=1_000):
 
 
 class CifarSEBasicBlock(nn.Module):
-    def __init__(self, inplanes, planes, stride=1, reduction=16, threshold = 0.5):
+    def __init__(self, inplanes, planes, stride=1, reduction=16, threshold):
         super(CifarSEBasicBlock, self).__init__()
         self.conv1 = conv3x3(inplanes, planes, stride)
         self.bn1 = nn.BatchNorm2d(planes)
@@ -177,7 +177,7 @@ class CifarSEBasicBlock(nn.Module):
 
 
 class CifarSEResNet(nn.Module):
-    def __init__(self, block, n_size, num_classes=10, reduction=16, threshold = 0.5):
+    def __init__(self, block, n_size, num_classes=10, reduction=16, threshold):
         super(CifarSEResNet, self).__init__()
         self.inplane = 16
         self.conv1 = nn.Conv2d(
@@ -228,7 +228,7 @@ class CifarSEResNet(nn.Module):
 
 
 class CifarSEPreActResNet(CifarSEResNet):
-    def __init__(self, block, n_size, num_classes=10, reduction=16, threshold = 0.5):
+    def __init__(self, block, n_size, num_classes=10, reduction=16, threshold):
         super(CifarSEPreActResNet, self).__init__(
             block, n_size, num_classes, reduction, threshold)
         self.bn1 = nn.BatchNorm2d(self.inplane)
