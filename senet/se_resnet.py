@@ -145,7 +145,7 @@ def se_resnet152(num_classes=1_000):
 
 
 class CifarSEBasicBlock(nn.Module):
-    def __init__(self, inplanes, planes, stride=1, reduction=16, threshold = threshold):
+    def __init__(self, inplanes, planes, stride=1, reduction=16, threshold = 0.5):
         super(CifarSEBasicBlock, self).__init__()
         self.conv1 = conv3x3(inplanes, planes, stride)
         self.bn1 = nn.BatchNorm2d(planes)
@@ -177,7 +177,7 @@ class CifarSEBasicBlock(nn.Module):
 
 
 class CifarSEResNet(nn.Module):
-    def __init__(self, block, n_size, num_classes=10, reduction=16, threshold = threshold):
+    def __init__(self, block, n_size, num_classes=10, reduction=16, threshold = 0.5):
         super(CifarSEResNet, self).__init__()
         self.inplane = 16
         self.conv1 = nn.Conv2d(
