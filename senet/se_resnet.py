@@ -13,7 +13,7 @@ class SEBasicBlock(nn.Module):
 
     def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
                  base_width=64, dilation=1, norm_layer=None,
-                 *, reduction=16, threshold = threshold):
+                 *, reduction=16, threshold = 0.5):
         super(SEBasicBlock, self).__init__()
         self.conv1 = conv3x3(inplanes, planes, stride)
         self.bn1 = nn.BatchNorm2d(planes)
@@ -48,7 +48,7 @@ class SEBottleneck(nn.Module):
 
     def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
                  base_width=64, dilation=1, norm_layer=None,
-                 *, reduction=16, threshold = threshold):
+                 *, reduction=16, threshold = 0.5):
         super(SEBottleneck, self).__init__()
         self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=1, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
@@ -228,7 +228,7 @@ class CifarSEResNet(nn.Module):
 
 
 class CifarSEPreActResNet(CifarSEResNet):
-    def __init__(self, block, n_size, num_classes=10, reduction=16, threshold = threshold):
+    def __init__(self, block, n_size, num_classes=10, reduction=16, threshold = 0.5):
         super(CifarSEPreActResNet, self).__init__(
             block, n_size, num_classes, reduction, threshold)
         self.bn1 = nn.BatchNorm2d(self.inplane)
