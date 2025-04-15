@@ -4,7 +4,7 @@ from torch import nn
 class SELayer(nn.Module):
     def __init__(self, channel, reduction=16, threshold = 0.5):
         super(SELayer, self).__init__()
-        print(threshold)
+        self.history = []
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
         self.fc = nn.Sequential(
             nn.Linear(channel, channel // reduction, bias=False),
@@ -20,7 +20,7 @@ class SELayer(nn.Module):
         y = self.fc(y).view(b, c, 1, 1)
         y_simple = (y.view(b, c))
         zero_channels = (y_simple == 0).all(dim=0)
+        self.history.append(zero_channels)
         print(zero_channels)
-        print(b)
-        print(c)
+        print(self.history)
         return x * y.expand_as(x)
