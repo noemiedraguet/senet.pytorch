@@ -21,7 +21,8 @@ class SELayer(nn.Module):
         y_simple = (y.view(b, c))
         zero_channels = (y_simple == 0).all(dim=0)
         zero_channels = zero_channels.tolist()
-        self.history.append(zero_channels)
+        for elem in zero_channels:
+            self.history.append(elem)
         print(self.history)
         print("HEEEELLLOOOOO")
         return x * y.expand_as(x)
