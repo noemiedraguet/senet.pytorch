@@ -24,5 +24,4 @@ class SELayer(nn.Module):
         for elem in zero_channels:
             self.history.append(elem)
         print(self.history)
-        print("HEEEELLLOOOOO")
         return x * y.expand_as(x)
