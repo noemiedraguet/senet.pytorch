@@ -21,5 +21,4 @@ class SELayer(nn.Module):
         y_simple = (y.view(b, c))
         zero_channels = (y_simple == 0).all(dim=0)
         self.history = zero_channels
-        print(zero_channels)
         return x * y.expand_as(x)
