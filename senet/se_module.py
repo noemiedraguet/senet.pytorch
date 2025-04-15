@@ -22,4 +22,5 @@ class SELayer(nn.Module):
         zero_channels = (y_simple == 0).all(dim=0)
         self.history.append(zero_channels)
         print(self.history)
+        print("HEEEELLLOOOOO")
         return x * y.expand_as(x)
