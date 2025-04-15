@@ -20,6 +20,7 @@ class SELayer(nn.Module):
         y = self.fc(y).view(b, c, 1, 1)
         y_simple = (y.view(b, c))
         zero_channels = (y_simple == 0).all(dim=0)
+        zero_channels = zero_channels.tolist()
         self.history.append(zero_channels)
         print(self.history)
         print("HEEEELLLOOOOO")
