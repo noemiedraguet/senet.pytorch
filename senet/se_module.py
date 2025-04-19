@@ -22,8 +22,8 @@ class SELayer(nn.Module):
         y_bool = y_simple == 0
         y_bool = y_bool.tolist()
         coverage_list = []
-        for image in y_bool:
-            coverage = sum(image)/len(image)
+        for image_channels in y_bool:
+            coverage = sum(image_channels)/len(image_channels)
             coverage_list.append(coverage)
         for elem in coverage_list:
             self.history.append(elem)
