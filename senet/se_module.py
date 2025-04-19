@@ -21,12 +21,14 @@ class SELayer(nn.Module):
         y_simple = (y.view(b, c))
         y_bool = y_simple == 0
         y_bool = y_bool.tolist()
-        print(len(y_bool))
+        coverage_list = []
         for image in y_bool:
-            image = sum(image)
+            coverage = sum(image)
+            coverage_list.append(coverage)
             print("FINAL IMAGE")
-            print(image)
-        print(len(y_bool))
+            print(coverage)
         print("FINAL Y_BOOL")
+        print(len(coverage_list))
+        print(coverage_list)
         print(y_bool)
         return x * y.expand_as(x)
