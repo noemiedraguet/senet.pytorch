@@ -27,6 +27,4 @@ class SELayer(nn.Module):
             coverage_list.append(coverage)
         for elem in coverage_list:
             self.history.append(elem)
-        print(coverage_list)
-        print(y_bool)
         return x * y.expand_as(x)
