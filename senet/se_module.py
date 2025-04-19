@@ -21,6 +21,8 @@ class SELayer(nn.Module):
         y_simple = (y.view(b, c))
         y_bool = y_simple == 0
         y_bool = y_bool.tolist()
-        print(y_bool)
+        print(len(y_bool))
+        for elem in y_bool:
+            print(len(elem))
         
         return x * y.expand_as(x)
