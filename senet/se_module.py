@@ -25,10 +25,8 @@ class SELayer(nn.Module):
         for image in y_bool:
             coverage = sum(image)/len(image)
             coverage_list.append(coverage)
-            print("TOTAL")
-            print(coverage)
-        print("FINAL Y_BOOL")
-        print(len(coverage_list))
+        for elem in coverage_list:
+            self.history.append(elem)
         print(coverage_list)
         print(y_bool)
         return x * y.expand_as(x)
