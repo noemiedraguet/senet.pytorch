@@ -23,9 +23,9 @@ class SELayer(nn.Module):
         y_bool = y_bool.tolist()
         coverage_list = []
         for image in y_bool:
-            coverage = sum(image)
+            coverage = sum(image)/len(image)
             coverage_list.append(coverage)
-            print("FINAL IMAGE")
+            print("TOTAL")
             print(coverage)
         print("FINAL Y_BOOL")
         print(len(coverage_list))
