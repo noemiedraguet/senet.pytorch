@@ -22,7 +22,5 @@ class SELayer(nn.Module):
         y_bool = y_simple == 0
         y_bool = y_bool.tolist()
         print(y_bool)
-        zero_channels = sum(y_bool)
-        print(zero_channels)
-        self.history.append(zero_channels)
+        
         return x * y.expand_as(x)
