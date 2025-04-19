@@ -19,6 +19,9 @@ class SELayer(nn.Module):
         y = self.avg_pool(x).view(b, c)
         y = self.fc(y).view(b, c, 1, 1)
         y_simple = (y.view(b, c))
+        print (y_simple)
+        y_bool = y_simple == 0
+        print (y_bool)
         zero_channels = (y_simple == 0).all(dim=0)
         zero_channels = zero_channels.tolist()
         self.history.append(zero_channels)
