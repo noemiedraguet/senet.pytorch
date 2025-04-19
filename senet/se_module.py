@@ -23,6 +23,9 @@ class SELayer(nn.Module):
         y_bool = y_bool.tolist()
         print(len(y_bool))
         for image in y_bool:
+            print("INITIAL IMAGE")
+            print(image)
             image = sum(image)
-        
+            print("FINAL IMAGE")
+            print(image)
         return x * y.expand_as(x)
