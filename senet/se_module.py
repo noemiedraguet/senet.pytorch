@@ -22,7 +22,7 @@ class SELayer(nn.Module):
         y_bool = y_simple == 0
         y_bool = y_bool.tolist()
         print(len(y_bool))
-        for elem in y_bool:
-            print(len(elem))
+        for image in y_bool:
+            image = sum(image)
         
         return x * y.expand_as(x)
