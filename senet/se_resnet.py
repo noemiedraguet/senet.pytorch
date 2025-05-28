@@ -170,6 +170,8 @@ class CifarSEBasicBlock(nn.Module):
         out = self.bn2(out)
         out = self.se(out)
 
+        residual = residual * self.se.mask
+
         out += residual
         out = self.relu(out)
 
