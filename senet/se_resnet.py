@@ -170,6 +170,7 @@ class CifarSEBasicBlock(nn.Module):
         out = self.bn2(out)
         out = self.se(out)
 
+        #Adding the residual only to the channels that were not put to 0
         residual = residual * self.se.mask
 
         out += residual
