@@ -15,7 +15,6 @@ class SELayer(nn.Module):
         )
 
     def forward(self, x):
-        print(f"SELayer forward called, current history length: {len(self.history)}")
         b, c, _, _ = x.size()
         y = self.avg_pool(x).view(b, c)
         y = self.fc(y).view(b, c, 1, 1)
