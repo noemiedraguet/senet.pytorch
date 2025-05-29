@@ -21,7 +21,7 @@ class SELayer(nn.Module):
         y_simple = (y.view(b, c))
         y_bool = y_simple == 0
         y_bool = y_bool.tolist()
-        print(y_bool)
+        print(len(y_bool))
         coverage_list = []
         for image_channels in y_bool:
             coverage = sum(image_channels)/len(image_channels)
